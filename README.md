@@ -76,57 +76,79 @@ Client-server chat applications are foundational to real-time communication over
 ## PROGRAM
 ## CLIENT.PY
 ```
+import os
+os.environ["OPENBLAS_NUM_THREADS"]="1"
+
 import socket
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket()
 
-client.connect(("localhost", 9999))
+host = input("Enter hostname or host IP : ")
+port = 8080
 
-done=False
+s.connect((host, port))
 
-while not done:
-    client.send(input("Message ").encode('utf-8'))
-    msg = client.recv(1024).decode('utf-8')
+print("Connected to chat server")
 
-    if msg == 'quit':
-        done=True
-    else:
-        print(msg)
+while True:
+    incoming_message = s.recv(1024).decode()
 
+    print("Server :", incoming_message)
+    print()
 
+    message = input(">> ")
 
-client.close()
+    s.send(message.encode())
+
+    print("Sent")
+    print()
 ```
 ## server.py
 ```
+import os
+os.environ["OPENBLAS_NUM_THREADS"]="1"
+
 import socket
-from base64 import decode
-from operator import truediv
 
-server =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('localhost', 9999))
-server.listen()
-client,addr=server.accept()
+s = socket.socket()
 
-done = False
+host = socket.gethostname()
+port = 8080
 
-while not done:
-    msg = client.recv(1024).decode('utf-8')
+print("Server will start on host :", host)
 
-    if msg == 'quit':
-        done = True
-    else:
-        print(msg)
+s.bind((host, port))
 
-    client.send(input("Message ").encode('utf-8'))
+print()
+print("Waiting for connection")
+print()
 
+s.listen(1)
 
-client.close()
-server.close()
+conn, addr = s.accept()
+
+print(addr, "Has connected to the server")
+print()
+
+while True:
+    message = input(">> ")
+
+    conn.send(message.encode())
+
+    print("Sent")
+    print()
+
+    incoming_message = conn.recv(1024).decode()
+
+    print("Client :", incoming_message)
+    print()
 ```
 ## OUTPUT
 
-<img width="854" height="232" alt="image" src="https://github.com/user-attachments/assets/58a57a56-f4a5-4908-a0dd-03078bd9d6fc" />
+<img width="927" height="377" alt="Screenshot 2026-05-18 131911" src="https://github.com/user-attachments/assets/df8cfe9a-7858-4874-9646-1051f525deff" />
+
+<img width="922" height="137" alt="Screenshot 2026-05-18 131920" src="https://github.com/user-attachments/assets/22a776d9-537b-45dd-96c6-47f43bcd6eb9" />
+
 
 ## Result:
 

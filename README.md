@@ -145,10 +145,14 @@ while True:
 ```
 ## OUTPUT
 
+server 
+```
 <img width="927" height="377" alt="Screenshot 2026-05-18 131911" src="https://github.com/user-attachments/assets/df8cfe9a-7858-4874-9646-1051f525deff" />
-
+```
+client
+```
 <img width="922" height="137" alt="Screenshot 2026-05-18 131920" src="https://github.com/user-attachments/assets/22a776d9-537b-45dd-96c6-47f43bcd6eb9" />
-
+```
 
 ## Result:
 
